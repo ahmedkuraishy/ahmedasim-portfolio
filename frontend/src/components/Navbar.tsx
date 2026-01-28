@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  data: Array<{ name: string; url: string }>;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ data }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target" id="ftco-navbar">
       <div className="container">
@@ -11,13 +15,11 @@ const Navbar: React.FC = () => {
 
         <div className="collapse navbar-collapse" id="ftco-nav">
           <ul className="navbar-nav nav ml-auto">
-            <li className="nav-item"><a href="#home-section" className="nav-link"><span>Home</span></a></li>
-            <li className="nav-item"><a href="#about-section" className="nav-link"><span>About</span></a></li>
-            <li className="nav-item"><a href="#skills-section" className="nav-link"><span>Skills</span></a></li>
-            <li className="nav-item"><a href="#services-section" className="nav-link"><span>Services</span></a></li>
-            <li className="nav-item"><a href="#projects-section" className="nav-link"><span>Projects</span></a></li>
-            <li className="nav-item"><a href="#blog-section" className="nav-link"><span>Blog</span></a></li>
-            <li className="nav-item"><a href="#contact-section" className="nav-link"><span>Contact</span></a></li>
+            {data && data.map((item, index) => (
+              <li key={index} className="nav-item">
+                <a href={item.url} className="nav-link"><span>{item.name}</span></a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

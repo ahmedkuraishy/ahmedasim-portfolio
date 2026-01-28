@@ -75,6 +75,7 @@ export interface ContactData {
 }
 
 export interface PortfolioData {
+  navbar: Array<{ name: string; url: string }>;
   hero: HeroData;
   counters: CounterData[];
   about: AboutData;

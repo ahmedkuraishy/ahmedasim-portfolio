@@ -75,6 +75,7 @@ const ContactSchema = new mongoose.Schema({
 });
 
 const PortfolioSchema = new mongoose.Schema({
+  navbar: [{ name: String, url: String }],
   hero: [HeroSlideSchema],
   counters: [CounterSchema],
   about: AboutSchema,

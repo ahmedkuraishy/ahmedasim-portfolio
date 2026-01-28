@@ -1,2 +1,7 @@
-/* globals.css - Emptying this to remove Tailwind and default Next.js styles */
-/* The styles are now managed by the Bootstrap template files in public/css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* globals.css */
+/* Styles for the main site are managed by the Bootstrap template files in public/css */
+/* Tailwind is used for the modern Admin CMS interface */

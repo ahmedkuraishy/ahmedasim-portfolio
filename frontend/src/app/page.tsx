@@ -58,7 +58,15 @@ export default function Home() {
         <Loader />
       ) : (
         <>
-          <Navbar />
+          <Navbar data={data.navbar || [
+            { name: "Home", url: "#home-section" },
+            { name: "About", url: "#about-section" },
+            { name: "Skills", url: "#skills-section" },
+            { name: "Services", url: "#services-section" },
+            { name: "Projects", url: "#projects-section" },
+            { name: "Blog", url: "#blog-section" },
+            { name: "Contact", url: "#contact-section" },
+          ]} />
           <Hero data={data.hero} />
           <Counter data={data.counters} />
           <About data={data.about} />

@@ -1,0 +1,13 @@
+[dotenv@17.2.3] injecting env (3) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Connected to MongoDB for admin seeding...
+Cleared existing admins.
+Seeding error message: next is not a function
+Stack trace: TypeError: next is not a function
+    at model.<anonymous> (C:\Users\ahmed.asim\Desktop\ahmed-portfolio\backend\models\User.js:18:3)
+    at async Kareem.execPre (C:\Users\ahmed.asim\Desktop\ahmed-portfolio\backend\node_modules\kareem\index.js:65:24)
+    at async model.$__save (C:\Users\ahmed.asim\Desktop\ahmed-portfolio\backend\node_modules\mongoose\lib\model.js:369:5)
+    at async model.save (C:\Users\ahmed.asim\Desktop\ahmed-portfolio\backend\node_modules\mongoose\lib\model.js:609:5)
+    at async C:\Users\ahmed.asim\Desktop\ahmed-portfolio\backend\node_modules\mongoose\lib\model.js:2714:9
+    at async Promise.all (index 0)
+    at async Function.create (C:\Users\ahmed.asim\Desktop\ahmed-portfolio\backend\node_modules\mongoose\lib\model.js:2699:11)
+    at async seed (C:\Users\ahmed.asim\Desktop\ahmed-portfolio\backend\seed-admin.js:20:5)
