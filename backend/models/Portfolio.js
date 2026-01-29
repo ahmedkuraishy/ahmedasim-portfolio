@@ -13,6 +13,9 @@ const CounterSchema = new mongoose.Schema({
 });
 
 const AboutSchema = new mongoose.Schema({
+  heading: String,
+  subheading: String,
+  image: String,
   name: String,
   dob: String,
   address: String,

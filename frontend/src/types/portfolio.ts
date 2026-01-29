@@ -13,6 +13,9 @@ export interface CounterData {
 }
 
 export interface AboutData {
+  heading: string;
+  subheading: string;
+  image: string;
   name: string;
   dob: string;
   address: string;

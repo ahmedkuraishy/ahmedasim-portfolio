@@ -31,6 +31,9 @@ const portfolioData = {
     { label: "Real Professionals", number: 780, icon: "flaticon-loyalty" },
   ],
   about: {
+    heading: "About Me",
+    subheading: "My Story",
+    image: "/images/about-1.jpg",
     name: "Clyde Nowitzki",
     dob: "January 01, 1990",
     address: "San Francisco CA 97987 USA",
