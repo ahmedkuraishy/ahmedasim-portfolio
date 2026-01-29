@@ -38,11 +38,39 @@ export default function AdminDashboard() {
   const [token, setToken] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   
+  // Sidebar state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
   // User Management State
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   
   const router = useRouter();
+
+  // Check if mobile and set sidebar state
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      setIsSidebarOpen(!mobile); // Sidebar closed by default on mobile
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    if (isMobile) {
+      setIsSidebarOpen(false);
+    }
+  };
 
   useEffect(() => {
     const storedToken = localStorage.getItem('adminToken');
@@ -403,9 +431,35 @@ export default function AdminDashboard() {
 
   return (
     <div className="dashboard-container">
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} handleLogout={handleLogout} />
+      {/* Hamburger Menu Button */}
+      <button 
+        className={`hamburger-btn ${isSidebarOpen ? 'active' : ''}`}
+        onClick={toggleSidebar}
+        aria-label="Toggle sidebar"
+      >
+        <div className="hamburger-line"></div>
+        <div className="hamburger-line"></div>
+        <div className="hamburger-line"></div>
+      </button>
 
-      <main className="main-content">
+      {/* Mobile Overlay */}
+      {isMobile && (
+        <div 
+          className={`sidebar-overlay ${isSidebarOpen ? 'active' : ''}`}
+          onClick={closeSidebar}
+        />
+      )}
+
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        handleLogout={handleLogout}
+        isOpen={isSidebarOpen}
+        isMobile={isMobile}
+        onClose={closeSidebar}
+      />
+
+      <main className={`main-content ${isSidebarOpen ? '' : 'expanded'}`}>
         <Header 
           title={getTabLabel(activeTab)} 
           subtitle={activeTab === 'users' ? 'Manage administrative access' : `Update your ${getTabLabel(activeTab)} content`}
@@ -430,7 +484,7 @@ export default function AdminDashboard() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               {activeTab === 'navbar' && <NavbarForm data={portfolioData?.navbar} saving={saving} onUpdate={handleUpdateNavbar} />}
-              {activeTab === 'hero' && <HeroForm data={portfolioData?.hero} saving={saving} onUpdate={handleUpdateHero} />}
+              {activeTab === 'hero' && <HeroForm data={portfolioData?.hero} saving={saving} onUpdate={handleUpdateHero} token={token} />}
               {activeTab === 'counters' && <CountersForm data={portfolioData?.counters} saving={saving} onUpdate={handleUpdateCounters} />}
               {activeTab === 'about' && (
                 <AboutForm 
@@ -443,8 +497,8 @@ export default function AdminDashboard() {
               )}
               {activeTab === 'skills' && <SkillsForm data={portfolioData?.skills} saving={saving} onUpdate={handleUpdateSkills} />}
               {activeTab === 'services' && <ServicesForm data={portfolioData?.services} saving={saving} onUpdate={handleUpdateServices} />}
-              {activeTab === 'projects' && <ProjectsForm data={portfolioData?.projects} saving={saving} onUpdate={handleUpdateProjects} />}
-              {activeTab === 'blog' && <BlogForm data={portfolioData?.blog} saving={saving} onUpdate={handleUpdateBlog} />}
+              {activeTab === 'projects' && <ProjectsForm data={portfolioData?.projects} saving={saving} onUpdate={handleUpdateProjects} token={token} />}
+              {activeTab === 'blog' && <BlogForm data={portfolioData?.blog} saving={saving} onUpdate={handleUpdateBlog} token={token} />}
               {activeTab === 'contact' && <ContactForm data={portfolioData?.contact} saving={saving} onUpdate={handleUpdateContact} />}
               {activeTab === 'footer' && <FooterForm data={portfolioData?.footer} saving={saving} onUpdate={handleUpdateFooter} />}
 

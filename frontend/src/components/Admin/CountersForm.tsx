@@ -12,7 +12,7 @@ const CountersForm: React.FC<CountersFormProps> = ({ data, saving, onUpdate }) =
   return (
     <div className="card">
       <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', display: 'flex', alignItems: 'center' }}>
-        <span style={{ width: '0.5rem', height: '2rem', backgroundColor: '#14b8a6', borderRadius: '1rem', marginRight: '1rem' }}></span>
+        <span style={{ width: '0.5rem', height: '2rem', backgroundColor: '#666666', borderRadius: '1rem', marginRight: '1rem' }}></span>
         Manage Stats Counters
       </h3>
       <form onSubmit={onUpdate}>
@@ -36,7 +36,7 @@ const CountersForm: React.FC<CountersFormProps> = ({ data, saving, onUpdate }) =
             </div>
           ))}
         </div>
-        <button type="submit" disabled={saving} className="btn-save" style={{ background: '#14b8a6' }}>
+        <button type="submit" disabled={saving} className="btn-save">
           {saving ? 'Saving...' : 'Update Stats'}
         </button>
       </form>

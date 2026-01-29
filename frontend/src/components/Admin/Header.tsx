@@ -18,10 +18,8 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, onRefresh, showAddUser
         <p>{subtitle}</p>
       </div>
       <div>
-        {showAddUser ? (
+        {showAddUser && (
           <button className="btn-primary" onClick={onAddUser}>+ Add New User</button>
-        ) : (
-          <button onClick={onRefresh} className="btn-secondary">⟳ Refresh Data</button>
         )}
       </div>
     </header>
