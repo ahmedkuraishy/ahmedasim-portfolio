@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServiceData } from '../types/portfolio';
+import { ServiceData } from '../../types/portfolio';
 
 interface ServicesProps {
   data: ServiceData[];

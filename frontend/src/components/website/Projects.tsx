@@ -1,5 +1,6 @@
 import React from 'react';
-import { ProjectData } from '../types/portfolio';
+import { ProjectData } from '../../types/portfolio';
+import { getSafeImageUrl } from '../../utils/imageUtils';
 
 interface ProjectsProps {
   data: ProjectData[];
@@ -18,7 +19,7 @@ const Projects: React.FC<ProjectsProps> = ({ data }) => {
         <div className="row">
           {data.map((project, index) => (
             <div key={index} className="col-md-3">
-              <div className="project img shadow ftco-animate d-flex justify-content-center align-items-center" style={{backgroundImage: `url(${project.image})`}}>
+              <div className="project img shadow ftco-animate d-flex justify-content-center align-items-center" style={{backgroundImage: `url(${getSafeImageUrl(project.image)})`}}>
                 <div className="overlay"></div>
                 <div className="text text-center p-4">
                   <h3><a href="#">{project.title}</a></h3>

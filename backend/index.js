@@ -17,12 +17,21 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    // In development, you might want to allow all origins
+    // but with credentials: true, 'origin' must be a specific origin or true
+    callback(null, true); 
+  },
+  credentials: true
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.use('/api/admin', authRoutes); // Auth routes often grouped, but here specifically admin login
+app.use('/api/admin', authRoutes); 
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);

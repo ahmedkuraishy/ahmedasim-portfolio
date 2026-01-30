@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "697a128d5a6d02c8e102084d"
+  },
+  "name": "Admin User",
+  "email": "admin@portfolio.com",
+  "password": "$2b$10$8o0Ekzct1BMUNyRDiDzt.uDJxKRTzd3gWEbXl3uXGT1t76EIPwJrS",
+  "role": "admin",
+  "createdAt": {
+    "$date": "2026-01-28T13:43:41.014Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-28T13:43:41.014Z"
+  },
+  "__v": 0
+}]

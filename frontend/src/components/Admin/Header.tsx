@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, onRefresh, showAddUser
   return (
     <header className="content-header">
       <div>
-        <h2>Edit {title}</h2>
+        <h2>{title}</h2>
         <p>{subtitle}</p>
       </div>
       <div>

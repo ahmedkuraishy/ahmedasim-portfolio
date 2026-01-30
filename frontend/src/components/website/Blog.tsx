@@ -1,5 +1,6 @@
 import React from 'react';
-import { BlogPostData } from '../types/portfolio';
+import { BlogPostData } from '../../types/portfolio';
+import { getSafeImageUrl } from '../../utils/imageUtils';
 
 interface BlogProps {
   data: BlogPostData[];
@@ -19,7 +20,7 @@ const Blog: React.FC<BlogProps> = ({ data }) => {
           {data.map((post, index) => (
             <div key={index} className="col-md-4 d-flex ftco-animate">
               <div className="blog-entry justify-content-end">
-                <a href="#" className="block-20" style={{backgroundImage: `url(${post.image})`}}>
+                <a href="#" className="block-20" style={{backgroundImage: `url(${getSafeImageUrl(post.image)})`}}>
                 </a>
                 <div className="text mt-3 float-right d-block">
                   <div className="d-flex align-items-center mb-3 meta">

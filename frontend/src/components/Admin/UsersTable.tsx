@@ -24,7 +24,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, onDelete, onEdit }) => {
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Actions</th>
+            <th style={{ textAlign: 'right' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -40,16 +40,43 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, onDelete, onEdit }) => {
               <td style={{ textAlign: 'right' }}>
                 <button 
                   onClick={() => onEdit(user)}
-                  style={{ color: '#8b5cf6', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: 500, marginRight: '1rem' }}
+                  style={{ 
+                    color: '#a855f7', 
+                    background: 'rgba(168, 85, 247, 0.1)', 
+                    border: '1px solid rgba(168, 85, 247, 0.2)', 
+                    cursor: 'pointer', 
+                    fontWeight: 600, 
+                    marginRight: '0.5rem',
+                    padding: '0.4rem 0.8rem',
+                    borderRadius: '0.5rem',
+                    fontSize: '0.85rem',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(168, 85, 247, 0.2)')}
+                  onMouseOut={(e) => (e.currentTarget.style.background = 'rgba(168, 85, 247, 0.1)')}
                 >
                   Edit
                 </button>
-                <button 
-                  onClick={() => onDelete(user._id)}
-                  style={{ color: '#f87171', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: 500 }}
-                >
-                  Delete
-                </button>
+                {user.role !== 'admin' && (
+                  <button 
+                    onClick={() => onDelete(user._id)}
+                    style={{ 
+                      color: '#f87171', 
+                      background: 'rgba(248, 113, 113, 0.1)', 
+                      border: '1px solid rgba(248, 113, 113, 0.2)', 
+                      cursor: 'pointer', 
+                      fontWeight: 600,
+                      padding: '0.4rem 0.8rem',
+                      borderRadius: '0.5rem',
+                      fontSize: '0.85rem',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(248, 113, 113, 0.2)')}
+                    onMouseOut={(e) => (e.currentTarget.style.background = 'rgba(248, 113, 113, 0.1)')}
+                  >
+                    Delete
+                  </button>
+                )}
               </td>
             </tr>
           ))}

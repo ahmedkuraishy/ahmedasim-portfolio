@@ -1,5 +1,6 @@
 import React from 'react';
-import { AboutData } from '../types/portfolio';
+import { AboutData } from '../../types/portfolio';
+import { getSafeImageUrl } from '../../utils/imageUtils';
 
 interface AboutProps {
   data: AboutData;
@@ -13,7 +14,7 @@ const About: React.FC<AboutProps> = ({ data }) => {
           <div className="col-md-6 col-lg-5 d-flex">
             <div className="img-about img d-flex align-items-stretch">
               <div className="overlay"></div>
-              <div className="img d-flex align-self-stretch align-items-center" style={{backgroundImage:`url(${data.image || '/images/about-1.jpg'})`}}>
+              <div className="img d-flex align-self-stretch align-items-center" style={{backgroundImage:`url(${getSafeImageUrl(data.image) || '/images/about-1.jpg'})`}}>
               </div>
             </div>
           </div>

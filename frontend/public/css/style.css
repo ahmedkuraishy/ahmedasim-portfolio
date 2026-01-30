@@ -8431,6 +8431,7 @@ h1, h2, h3, h4, h5,
     height: 750px;
     z-index: 0; }
     .owl-carousel.home-slider .slider-item {
+      background-color: #fff;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
@@ -8456,6 +8457,7 @@ h1, h2, h3, h4, h5,
             text-align: center; } }
         .owl-carousel.home-slider .slider-item .slider-text .one-third {
           width: 70%;
+          background-color: #cfd2d2;
           position: relative;
           height: 750px;
           z-index: -1;

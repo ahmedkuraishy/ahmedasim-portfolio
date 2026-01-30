@@ -1,5 +1,5 @@
 import React from 'react';
-import { FooterData } from '../types/portfolio';
+import { FooterData } from '../../types/portfolio';
 
 interface FooterProps {
   data: FooterData;

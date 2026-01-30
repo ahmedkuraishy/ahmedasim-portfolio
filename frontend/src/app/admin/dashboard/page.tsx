@@ -75,7 +75,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const storedToken = localStorage.getItem('adminToken');
     if (!storedToken) {
-      router.push('/admin/login');
+      router.push('/secure/pixel9/admin-panel/login');
       return;
     }
     setToken(storedToken);
@@ -84,12 +84,12 @@ export default function AdminDashboard() {
 
   const fetchData = async (authToken: string) => {
     try {
-      const usersRes = await fetch('http://localhost:5000/api/users', {
+      const usersRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
       if (usersRes.ok) setUsers(await usersRes.json());
 
-      const portRes = await fetch('http://localhost:5000/api/portfolio');
+      const portRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolio`);
       if (portRes.ok) setPortfolioData(await portRes.json());
     } catch (err) {
       console.error(err);
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
     if (!token) return;
     setSaving(true);
     try {
-      const res = await fetch('http://localhost:5000/api/portfolio', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolio`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
       uploadFormData.append('image', selectedFile);
       
       try {
-        const uploadRes = await fetch('http://localhost:5000/api/upload', {
+        const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` },
           body: uploadFormData
@@ -172,7 +172,7 @@ export default function AdminDashboard() {
     };
 
     try {
-      const res = await fetch('http://localhost:5000/api/portfolio', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolio`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ ...portfolioData, about: updatedAbout }),
@@ -197,24 +197,11 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleUpdateHero = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const updatedHero = portfolioData.hero.map((_: any, idx: number) => ({
-      subheading: formData.get(`hero_sub_${idx}`),
-      title: formData.get(`hero_title_${idx}`),
-      bgImage: formData.get(`hero_img_${idx}`),
-    }));
+  const handleUpdateHero = async (updatedHero: any[]) => {
     handleUpdateSection('hero', updatedHero);
   };
 
-  const handleUpdateNavbar = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const updatedNavbar = portfolioData.navbar.map((_: any, idx: number) => ({
-      name: formData.get(`nav_name_${idx}`),
-      url: formData.get(`nav_url_${idx}`),
-    }));
+  const handleUpdateNavbar = async (updatedNavbar: any) => {
     handleUpdateSection('navbar', updatedNavbar);
   };
 
@@ -307,7 +294,7 @@ export default function AdminDashboard() {
     const labels: Record<TabType, string> = {
       navbar: 'Navbar',
       hero: 'Hero Section',
-      counters: 'Stats Counters',
+      counters: 'Stats',
       about: 'About Me',
       skills: 'Skills',
       services: 'Services',
@@ -323,11 +310,24 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUser');
-    router.push('/admin/login');
+    router.push('/secure/pixel9/admin-panel/login');
   };
 
   const handleDeleteUser = async (id: string) => {
     if (!token) return;
+
+    const userToDelete = users.find(u => u._id === id);
+    if (userToDelete?.role === 'admin') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Unauthorized',
+        text: 'Admin users cannot be deleted.',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#9333ea'
+      });
+      return;
+    }
     
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -343,7 +343,7 @@ export default function AdminDashboard() {
 
     if (result.isConfirmed) {
       try {
-        const res = await fetch(`http://localhost:5000/api/users/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -376,8 +376,8 @@ export default function AdminDashboard() {
     
     try {
       const url = userData._id 
-        ? `http://localhost:5000/api/users/${userData._id}` 
-        : 'http://localhost:5000/api/users';
+        ? `${process.env.NEXT_PUBLIC_API_URL}/users/${userData._id}` 
+        : `${process.env.NEXT_PUBLIC_API_URL}/users`;
       
       const method = userData._id ? 'PUT' : 'POST';
       
@@ -437,9 +437,19 @@ export default function AdminDashboard() {
         onClick={toggleSidebar}
         aria-label="Toggle sidebar"
       >
-        <div className="hamburger-line"></div>
-        <div className="hamburger-line"></div>
-        <div className="hamburger-line"></div>
+        {isSidebarOpen ? (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        ) : (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1.5" />
+            <rect x="14" y="3" width="7" height="7" rx="1.5" />
+            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+            <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          </svg>
+        )}
       </button>
 
       {/* Mobile Overlay */}

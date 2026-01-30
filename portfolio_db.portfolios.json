@@ -1,0 +1,434 @@
+[{
+  "_id": {
+    "$oid": "697a1777af8629de544fc29f"
+  },
+  "navbar": [
+    {
+      "name": "Home",
+      "url": "#home-section",
+      "_id": {
+        "$oid": "697b3f2908e69ac8169e1d2e"
+      }
+    },
+    {
+      "name": "About",
+      "url": "#about-section",
+      "_id": {
+        "$oid": "697b3f2908e69ac8169e1d2f"
+      }
+    },
+    {
+      "name": "Skills",
+      "url": "#skills-section",
+      "_id": {
+        "$oid": "697b3f2908e69ac8169e1d30"
+      }
+    },
+    {
+      "name": "Services",
+      "url": "#services-section",
+      "_id": {
+        "$oid": "697b3f2908e69ac8169e1d31"
+      }
+    },
+    {
+      "name": "Projects",
+      "url": "#projects-section",
+      "_id": {
+        "$oid": "697b3f2908e69ac8169e1d32"
+      }
+    },
+    {
+      "name": "Blog",
+      "url": "#blog-section",
+      "_id": {
+        "$oid": "697b3f2908e69ac8169e1d33"
+      }
+    },
+    {
+      "name": "Contact",
+      "url": "#contact-section",
+      "_id": {
+        "$oid": "697b3f2908e69ac8169e1d34"
+      }
+    }
+  ],
+  "hero": [
+    {
+      "subheading": "Hello! This is Ahmed Asim",
+      "title": "Software Engineer ",
+      "bgImage": "/images/bg_1.jpg",
+      "_id": {
+        "$oid": "697b236908e69ac8169e0e4e"
+      }
+    },
+    {
+      "subheading": "We Design & Build Brands",
+      "title": "Hi, I am Ahmed This is my favorite work.",
+      "bgImage": "/images/bg_2.jpg",
+      "_id": {
+        "$oid": "697b236908e69ac8169e0e4f"
+      }
+    }
+  ],
+  "counters": [
+    {
+      "label": "Project Complete",
+      "number": 750,
+      "icon": "flaticon-suitcase",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2a9"
+      }
+    },
+    {
+      "label": "Happy Clients",
+      "number": 568,
+      "icon": "flaticon-loyalty",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2aa"
+      }
+    },
+    {
+      "label": "Cup of Coffee",
+      "number": 478,
+      "icon": "flaticon-loyalty",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2ab"
+      }
+    },
+    {
+      "label": "Real Professionals",
+      "number": 780,
+      "icon": "flaticon-loyalty",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2ac"
+      }
+    }
+  ],
+  "about": {
+    "heading": "About ",
+    "subheading": "My Story",
+    "image": "http://localhost:5000/uploads/1769667340542-about-1.jpg",
+    "name": "Muhammad Ahmed Asim ",
+    "dob": "January 01, 1990",
+    "address": "San Francisco CA 97987 USA",
+    "zip": "1000",
+    "email": "ahmedasim@gmail.com",
+    "phone": "+1-2234-5678-9-0",
+    "description": "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.",
+    "_id": {
+      "$oid": "697a1777af8629de544fc2ad"
+    }
+  },
+  "skills": [
+    {
+      "name": "Photoshop",
+      "value": 90,
+      "_id": {
+        "$oid": "697a1777af8629de544fc2ae"
+      }
+    },
+    {
+      "name": "jQuery",
+      "value": 85,
+      "_id": {
+        "$oid": "697a1777af8629de544fc2af"
+      }
+    },
+    {
+      "name": "HTML5",
+      "value": 95,
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b0"
+      }
+    },
+    {
+      "name": "CSS3",
+      "value": 90,
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b1"
+      }
+    },
+    {
+      "name": "WordPress",
+      "value": 70,
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b2"
+      }
+    },
+    {
+      "name": "SEO",
+      "value": 80,
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b3"
+      }
+    }
+  ],
+  "services": [
+    {
+      "title": "Web Design",
+      "icon": "flaticon-analysis",
+      "description": "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b4"
+      }
+    },
+    {
+      "title": "Photography",
+      "icon": "flaticon-flasks",
+      "description": "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b5"
+      }
+    },
+    {
+      "title": "Web Development",
+      "icon": "flaticon-ideas",
+      "description": "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b6"
+      }
+    },
+    {
+      "title": "App Design",
+      "icon": "flaticon-analysis",
+      "description": "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b7"
+      }
+    }
+  ],
+  "projects": [
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-1.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b8"
+      }
+    },
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-2.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2b9"
+      }
+    },
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-3.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2ba"
+      }
+    },
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-4.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2bb"
+      }
+    },
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-5.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2bc"
+      }
+    },
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-6.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2bd"
+      }
+    },
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-7.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2be"
+      }
+    },
+    {
+      "title": "Branding & Illustration Design",
+      "category": "Web Design",
+      "image": "/images/work-8.jpg",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2bf"
+      }
+    }
+  ],
+  "blog": [
+    {
+      "title": "Why Lead Generation is Key for Business Growth",
+      "date": "Sept. 12, 2019",
+      "author": "Admin",
+      "image": "/images/image_1.jpg",
+      "excerpt": "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2c0"
+      }
+    },
+    {
+      "title": "Why Lead Generation is Key for Business Growth",
+      "date": "Sept. 12, 2019",
+      "author": "Admin",
+      "image": "/images/image_2.jpg",
+      "excerpt": "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2c1"
+      }
+    },
+    {
+      "title": "Why Lead Generation is Key for Business Growth",
+      "date": "Sept. 12, 2019",
+      "author": "Admin",
+      "image": "/images/image_3.jpg",
+      "excerpt": "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+      "_id": {
+        "$oid": "697a1777af8629de544fc2c2"
+      }
+    }
+  ],
+  "footer": {
+    "about": {
+      "title": "Lets talk about",
+      "text": "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts."
+    },
+    "links": [
+      {
+        "name": "Home",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2c4"
+        }
+      },
+      {
+        "name": "About",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2c5"
+        }
+      },
+      {
+        "name": "Services",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2c6"
+        }
+      },
+      {
+        "name": "Projects",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2c7"
+        }
+      },
+      {
+        "name": "Contact",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2c8"
+        }
+      }
+    ],
+    "services": [
+      {
+        "name": "Web Design",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2c9"
+        }
+      },
+      {
+        "name": "Web Development",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2ca"
+        }
+      },
+      {
+        "name": "Business Strategy",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2cb"
+        }
+      },
+      {
+        "name": "Data Analysis",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2cc"
+        }
+      },
+      {
+        "name": "Graphic Design",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2cd"
+        }
+      }
+    ],
+    "contact": {
+      "title": "Have a Questions?",
+      "address": "203 Fake St. Mountain View, San Francisco, California, USA",
+      "phone": "+2 392 3929 210",
+      "email": "info@yourdomain.com"
+    },
+    "social": [
+      {
+        "name": "twitter",
+        "icon": "fa-twitter",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2ce"
+        }
+      },
+      {
+        "name": "facebook",
+        "icon": "fa-facebook",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2cf"
+        }
+      },
+      {
+        "name": "instagram",
+        "icon": "fa-instagram",
+        "url": "#",
+        "_id": {
+          "$oid": "697a1777af8629de544fc2d0"
+        }
+      }
+    ],
+    "copyright": "All rights reserved | This template is made with by Colorlib",
+    "_id": {
+      "$oid": "697a1777af8629de544fc2c3"
+    }
+  },
+  "contact": {
+    "subheading": "Contact us",
+    "title": "Have a Project?",
+    "description": "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia",
+    "address": "198 West 21th Street, Suite 721 New York NY 10016",
+    "phone": "+ 1235 2355 98",
+    "email": "info@yoursite.com",
+    "website": "yoursite.com",
+    "_id": {
+      "$oid": "697a1777af8629de544fc2d1"
+    }
+  },
+  "createdAt": {
+    "$date": "2026-01-28T14:04:39.136Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-29T11:06:17.569Z"
+  },
+  "__v": 7
+}]

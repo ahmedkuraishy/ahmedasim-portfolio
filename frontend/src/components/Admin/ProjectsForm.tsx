@@ -19,7 +19,7 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, saving, onUpdate, tok
 
     try {
       // Show loading or temp state if desired
-      const res = await fetch('http://localhost:5000/api/upload', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData

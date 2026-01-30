@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface NavbarProps {
-  data: Array<{ name: string; url: string }>;
+  data: Array<{ name: string; url: string; status?: string }>;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ data }) => {
@@ -15,7 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ data }) => {
 
         <div className="collapse navbar-collapse" id="ftco-nav">
           <ul className="navbar-nav nav ml-auto">
-            {data && data.map((item, index) => (
+            {data && data.filter(item => item.status !== 'inactive').map((item, index) => (
               <li key={index} className="nav-item">
                 <a href={item.url} className="nav-link"><span>{item.name}</span></a>
               </li>

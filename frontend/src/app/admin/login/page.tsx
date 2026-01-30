@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/admin/login', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -27,7 +28,7 @@ export default function AdminLogin() {
       if (res.ok) {
         localStorage.setItem('adminToken', data.token);
         localStorage.setItem('adminUser', JSON.stringify(data.user));
-        router.push('/admin/dashboard');
+        router.push('/secure/pixel9/admin-panel/dashboard');
       } else {
         setError(data.message || 'Login failed');
       }
@@ -59,7 +60,7 @@ export default function AdminLogin() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #0f0f23;
+          background: #0a0a0a;
           position: relative;
           overflow: hidden;
           font-family: 'Inter', sans-serif;
@@ -75,9 +76,9 @@ export default function AdminLogin() {
           right: 0;
           bottom: 0;
           background: 
-            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(255, 219, 98, 0.2) 0%, transparent 50%);
+            radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
           animation: floatingGradient 20s ease-in-out infinite;
         }
         
@@ -109,7 +110,7 @@ export default function AdminLogin() {
           position: absolute;
           filter: blur(120px);
           border-radius: 50%;
-          opacity: 0.1;
+          opacity: 0.05;
           z-index: 0;
         }
         .blob-1 {
@@ -117,25 +118,25 @@ export default function AdminLogin() {
           left: -10%;
           width: 40%;
           height: 40%;
-          background: linear-gradient(135deg, #ff77c6 0%, #7877c6 100%);
+          background: linear-gradient(135deg, #ffffff 0%, #333333 100%);
         }
         .blob-2 {
           bottom: -10%;
           right: -10%;
           width: 40%;
           height: 40%;
-          background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
+          background: linear-gradient(135deg, #333333 0%, #ffffff 100%);
         }
         .login-card {
           width: 100%;
           max-width: 400px;
           padding: 2.5rem;
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-          backdrop-filter: blur(20px);
+          background: rgba(17, 17, 17, 0.8);
+          backdrop-filter: blur(24px);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 24px;
           box-shadow: 
-            0 20px 40px -12px rgba(0, 0, 0, 0.2),
+            0 20px 40px -12px rgba(0, 0, 0, 0.5),
             inset 0 0 20px rgba(255, 255, 255, 0.02);
           position: relative;
           z-index: 10;
@@ -150,7 +151,7 @@ export default function AdminLogin() {
           left: 0;
           right: 0;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 119, 198, 0.5), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
           animation: slideTop 3s linear infinite;
         }
         
@@ -160,10 +161,10 @@ export default function AdminLogin() {
         }
         
         .login-card:hover {
-          border-color: rgba(255, 119, 198, 0.3);
+          border-color: rgba(255, 255, 255, 0.3);
           transform: translateY(-4px) scale(1.02);
           box-shadow: 
-            0 25px 50px -12px rgba(0, 0, 0, 0.3),
+            0 25px 50px -12px rgba(0, 0, 0, 0.5),
             inset 0 0 20px rgba(255, 255, 255, 0.05);
         }
         .login-header {
@@ -175,7 +176,7 @@ export default function AdminLogin() {
           font-weight: 900;
           margin-bottom: 0.5rem;
           letter-spacing: -0.05em;
-          background: linear-gradient(135deg, #ffffff 0%, #ff77c6 50%, #7877c6 100%);
+          background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 50%, #ffffff 100%);
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -183,8 +184,8 @@ export default function AdminLogin() {
         }
         
         @keyframes glow {
-          from { filter: drop-shadow(0 0 20px rgba(255, 119, 198, 0.5)); }
-          to { filter: drop-shadow(0 0 40px rgba(120, 119, 198, 0.8)); }
+          from { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
+          to { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4)); }
         }
         
         .login-header p {
@@ -193,7 +194,7 @@ export default function AdminLogin() {
         .error-msg {
           margin-bottom: 1.5rem;
           padding: 1rem;
-          background: linear-gradient(135deg, rgba(255, 59, 48, 0.1) 0%, rgba(255, 119, 198, 0.1) 100%);
+          background: rgba(255, 59, 48, 0.1);
           border: 1px solid rgba(255, 59, 48, 0.2);
           color: #ff6b60;
           border-radius: 16px;
@@ -229,32 +230,53 @@ export default function AdminLogin() {
         }
         .form-control:focus {
           outline: none;
-          border-color: #ff77c6;
-          background: linear-gradient(135deg, rgba(255, 119, 198, 0.1) 0%, rgba(120, 119, 198, 0.1) 100%);
+          border-color: #ffffff;
+          background: rgba(255, 255, 255, 0.05);
           box-shadow: 
-            0 0 0 4px rgba(255, 119, 198, 0.1),
-            0 8px 32px rgba(255, 119, 198, 0.2),
-            inset 0 0 20px rgba(255, 255, 255, 0.05);
+            0 0 0 4px rgba(255, 255, 255, 0.05),
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            inset 0 0 20px rgba(255, 255, 255, 0.02);
           transform: translateY(-2px);
         }
         .form-control::placeholder {
           color: #6b6b80;
         }
+        .password-container {
+          position: relative;
+          width: 100%;
+        }
+        .password-toggle {
+          position: absolute;
+          right: 1.25rem;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          color: #6b6b80;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: color 0.3s;
+          padding: 0.25rem;
+          z-index: 11;
+        }
+        .password-toggle:hover {
+          color: #ffffff;
+        }
         .btn-submit {
           width: 100%;
           padding: 1rem;
-          background: linear-gradient(135deg, #ff77c6 0%, #7877c6 100%);
+          background: #ffffff;
           border: none;
           border-radius: 16px;
-          color: white;
+          color: black;
           font-weight: 800;
           cursor: pointer;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 
-            0 8px 32px rgba(255, 119, 198, 0.3),
-            inset 0 0 20px rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.1em;
           position: relative;
           overflow: hidden;
         }
@@ -266,7 +288,7 @@ export default function AdminLogin() {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
           transition: left 0.5s;
         }
         
@@ -275,11 +297,9 @@ export default function AdminLogin() {
         }
         
         .btn-submit:hover {
-          transform: translateY(-4px) scale(1.05);
-          box-shadow: 
-            0 16px 64px rgba(255, 119, 198, 0.4),
-            inset 0 0 20px rgba(255, 255, 255, 0.3);
-          filter: brightness(1.1);
+          transform: translateY(-4px) scale(1.02);
+          background: #e5e5e5;
+          box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6);
         }
         .btn-submit:active {
           transform: translateY(0);
@@ -391,14 +411,34 @@ export default function AdminLogin() {
             </div>
             <div className="form-group">
               <label>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="form-control"
-                placeholder="••••••••"
-              />
+              <div className="password-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="form-control"
+                  placeholder="••••••••"
+                  style={{ paddingRight: '3.5rem' }}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
             <button type="submit" disabled={loading} className="btn-submit">
               {loading ? 'Authenticating...' : 'Sign In'}

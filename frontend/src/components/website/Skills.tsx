@@ -1,5 +1,5 @@
 import React from 'react';
-import { SkillData } from '../types/portfolio';
+import { SkillData } from '../../types/portfolio';
 
 interface SkillsProps {
   data: SkillData[];

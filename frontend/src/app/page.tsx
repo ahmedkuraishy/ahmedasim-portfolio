@@ -2,23 +2,23 @@
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { PortfolioData } from '../types/portfolio';
-import Loader from '../components/Loader';
-import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
-import Counter from '../components/Counter';
-import About from '../components/About';
-import Skills from '../components/Skills';
-import Services from '../components/Services';
-import Projects from '../components/Projects';
-import Blog from '../components/Blog';
-import Contact from '../components/Contact';
-import Footer from '../components/Footer';
+import Loader from '../components/website/Loader';
+import Navbar from '../components/website/Navbar';
+import Hero from '../components/website/Hero';
+import Counter from '../components/website/Counter';
+import About from '../components/website/About';
+import Skills from '../components/website/Skills';
+import Services from '../components/website/Services';
+import Projects from '../components/website/Projects';
+import Blog from '../components/website/Blog';
+import Contact from '../components/website/Contact';
+import Footer from '../components/website/Footer';
 
 export default function Home() {
   const [data, setData] = useState<PortfolioData | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/portfolio')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolio`)
       .then(res => res.json())
       .then(setData)
       .catch(err => console.error("Error fetching data:", err));

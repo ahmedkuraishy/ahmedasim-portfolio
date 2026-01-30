@@ -13,7 +13,7 @@ const CountersForm: React.FC<CountersFormProps> = ({ data, saving, onUpdate }) =
     <div className="card">
       <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', display: 'flex', alignItems: 'center' }}>
         <span style={{ width: '0.5rem', height: '2rem', backgroundColor: '#666666', borderRadius: '1rem', marginRight: '1rem' }}></span>
-        Manage Stats Counters
+        Manage Stats
       </h3>
       <form onSubmit={onUpdate}>
         <div className="form-grid">

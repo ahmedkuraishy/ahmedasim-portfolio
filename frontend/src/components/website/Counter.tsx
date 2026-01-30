@@ -1,5 +1,5 @@
 import React from 'react';
-import { CounterData } from '../types/portfolio';
+import { CounterData } from '../../types/portfolio';
 
 interface CounterProps {
   data: CounterData[];
