@@ -9,7 +9,7 @@ const portfolioData = {
     { name: "Skills", url: "#skills-section" },
     { name: "Services", url: "#services-section" },
     { name: "Projects", url: "#projects-section" },
-    { name: "Blog", url: "#blog-section" },
+    { name: "Resume", url: "#resume-section" },
     { name: "Contact", url: "#contact-section" },
   ],
   hero: [
@@ -114,29 +114,36 @@ const portfolioData = {
       image: "/images/work-8.jpg",
     },
   ],
-  blog: [
-    {
-      title: "Why Lead Generation is Key for Business Growth",
-      date: "Sept. 12, 2019",
-      author: "Admin",
-      image: "/images/image_1.jpg",
-      excerpt: "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
-    },
-    {
-      title: "Why Lead Generation is Key for Business Growth",
-      date: "Sept. 12, 2019",
-      author: "Admin",
-      image: "/images/image_2.jpg",
-      excerpt: "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
-    },
-    {
-      title: "Why Lead Generation is Key for Business Growth",
-      date: "Sept. 12, 2019",
-      author: "Admin",
-      image: "/images/image_3.jpg",
-      excerpt: "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
-    },
-  ],
+  resume: {
+    education: [
+      {
+        year: "2014-2015",
+        degree: "Master of Science in Computer Engineering",
+        institution: "Harvard University",
+        description: "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      },
+      {
+        year: "2010-2014",
+        degree: "Bachelor of Science in Computer Science",
+        institution: "Stanford University",
+        description: "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      }
+    ],
+    experience: [
+      {
+        year: "2019-Present",
+        degree: "Senior Software Engineer",
+        institution: "Google Inc.",
+        description: "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      },
+      {
+        year: "2015-2019",
+        degree: "Software Engineer",
+        institution: "Facebook Inc.",
+        description: "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      }
+    ]
+  },
   footer: {
     about: {
       title: "Lets talk about",
@@ -184,13 +191,13 @@ async function seed() {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to MongoDB for seeding...');
-    
+
     await Portfolio.deleteMany({});
     console.log('Cleared existing portfolio data.');
-    
+
     await Portfolio.create(portfolioData);
     console.log('Seeded portfolio data successfully!');
-    
+
     process.exit(0);
   } catch (err) {
     console.error('Seeding error:', err);

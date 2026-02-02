@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import ImageCropper from './ImageCropper';
 
 interface ProjectsFormProps {
   data: any[];
@@ -10,15 +11,28 @@ interface ProjectsFormProps {
 }
 
 const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, saving, onUpdate, token }) => {
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
-    const file = e.target.files?.[0];
-    if (!file || !token) return;
+  const [cropperState, setCropperState] = useState<{ src: string; index: number } | null>(null);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropperState({ src: reader.result as string, index });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const onCropComplete = async (croppedBlob: Blob) => {
+    if (!cropperState || !token) return;
+    const { index } = cropperState;
+
+    const file = new File([croppedBlob], `project-${index}.jpg`, { type: 'image/jpeg' });
     const formData = new FormData();
     formData.append('image', file);
 
     try {
-      // Show loading or temp state if desired
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
@@ -27,14 +41,13 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, saving, onUpdate, tok
 
       if (res.ok) {
         const { imageUrl } = await res.json();
-        // Update the hidden input that holds the actual URL to be saved
-        const input = document.getElementById(`project_img_input_${idx}`) as HTMLInputElement;
+        const input = document.getElementById(`project_img_input_${index}`) as HTMLInputElement;
         if (input) {
-           input.value = imageUrl;
-           // Also update preview if possible
-           const preview = document.getElementById(`project_img_preview_${idx}`) as HTMLImageElement;
-           if (preview) preview.src = imageUrl;
+          input.value = imageUrl;
+          const preview = document.getElementById(`project_img_preview_${index}`) as HTMLImageElement;
+          if (preview) preview.src = imageUrl;
         }
+        setCropperState(null);
       }
     } catch (err) {
       console.error('Upload failed', err);
@@ -61,27 +74,27 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, saving, onUpdate, tok
               <div className="form-group" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
                 <div style={{ flex: 1 }}>
                   <label>Project Image</label>
-                  <input 
-                    type="file" 
+                  <input
+                    type="file"
                     accept="image/*"
-                    onChange={(e) => handleFileUpload(e, idx)}
+                    onChange={(e) => handleFileChange(e, idx)}
                     className="form-control"
                     style={{ padding: '0.5rem' }}
                   />
-                  <input 
+                  <input
                     id={`project_img_input_${idx}`}
-                    name={`project_img_${idx}`} 
-                    type="hidden" 
-                    defaultValue={proj.image} 
+                    name={`project_img_${idx}`}
+                    type="hidden"
+                    defaultValue={proj.image}
                   />
                 </div>
                 <div className="img-preview-box">
-                   <img 
+                  <img
                     id={`project_img_preview_${idx}`}
-                    src={proj.image || 'https://via.placeholder.com/150'} 
-                    alt="Preview" 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                   />
+                    src={proj.image || 'https://via.placeholder.com/150'}
+                    alt="Preview"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
                 </div>
               </div>
             </div>
@@ -91,6 +104,14 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, saving, onUpdate, tok
           {saving ? 'Saving...' : 'Update Projects'}
         </button>
       </form>
+      {cropperState && (
+        <ImageCropper
+          image={cropperState.src}
+          aspect={4 / 3}
+          onCropComplete={onCropComplete}
+          onCancel={() => setCropperState(null)}
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import ImageCropper from './ImageCropper';
 
 interface AboutFormProps {
   data: any;
@@ -11,6 +12,24 @@ interface AboutFormProps {
 }
 
 const AboutForm: React.FC<AboutFormProps> = ({ data, saving, onUpdate, selectedFile, setSelectedFile }) => {
+  const [cropperSrc, setCropperSrc] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropperSrc(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const onCropComplete = (croppedBlob: Blob) => {
+    const file = new File([croppedBlob], 'profile.jpg', { type: 'image/jpeg' });
+    setSelectedFile(file);
+    setCropperSrc(null);
+  };
   return (
     <div className="card">
       <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', display: 'flex', alignItems: 'center' }}>
@@ -32,23 +51,31 @@ const AboutForm: React.FC<AboutFormProps> = ({ data, saving, onUpdate, selectedF
           <div className="form-group" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-end' }}>
             <div style={{ flex: 1 }}>
               <label>Profile Image Upload</label>
-              <input 
-                type="file" 
-                accept="image/*" 
-                onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} 
-                className="form-control" 
-                style={{ padding: '0.5rem' }} 
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="form-control"
+                style={{ padding: '0.5rem' }}
               />
+              {cropperSrc && (
+                <ImageCropper
+                  image={cropperSrc}
+                  aspect={1}
+                  onCropComplete={onCropComplete}
+                  onCancel={() => setCropperSrc(null)}
+                />
+              )}
             </div>
             <div className="img-preview-box">
               {(selectedFile || data?.image) ? (
-                <img 
-                  src={selectedFile ? URL.createObjectURL(selectedFile) : data?.image} 
-                  alt="Preview" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                <img
+                  src={selectedFile ? URL.createObjectURL(selectedFile) : data?.image}
+                  alt="Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-              ) : ( 
-                <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>No Image</span> 
+              ) : (
+                <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>No Image</span>
               )}
             </div>
           </div>

@@ -15,7 +15,7 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
             <div className="overlay"></div>
             <div className="container-fluid px-md-0">
               <div className="row d-md-flex no-gutters slider-text align-items-end justify-content-end" data-scrollax-parent="true">
-                <div className="one-third order-md-last img" style={{backgroundImage:`url(${getSafeImageUrl(slide.bgImage)})`}}>
+                <div className="one-third order-md-last img" style={{ backgroundImage: `url(${getSafeImageUrl(slide.bgImage)})` }}>
                   <div className="overlay"></div>
                   <div className="overlay-1"></div>
                 </div>

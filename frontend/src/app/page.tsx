@@ -10,7 +10,7 @@ import About from '../components/website/About';
 import Skills from '../components/website/Skills';
 import Services from '../components/website/Services';
 import Projects from '../components/website/Projects';
-import Blog from '../components/website/Blog';
+import Resume from '../components/website/Resume';
 import Contact from '../components/website/Contact';
 import Footer from '../components/website/Footer';
 
@@ -64,7 +64,7 @@ export default function Home() {
             { name: "Skills", url: "#skills-section" },
             { name: "Services", url: "#services-section" },
             { name: "Projects", url: "#projects-section" },
-            { name: "Blog", url: "#blog-section" },
+            { name: "Resume", url: "#resume-section" },
             { name: "Contact", url: "#contact-section" },
           ]} />
           <Hero data={data.hero} />
@@ -73,7 +73,7 @@ export default function Home() {
           <Skills data={data.skills} />
           <Services data={data.services} />
           <Projects data={data.projects} />
-          <Blog data={data.blog} />
+          <Resume data={data.resume} />
           <Contact data={data.contact} />
           <Footer data={data.footer} />
         </>

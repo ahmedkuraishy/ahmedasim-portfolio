@@ -42,12 +42,16 @@ const ProjectSchema = new mongoose.Schema({
   image: String
 });
 
-const BlogPostSchema = new mongoose.Schema({
-  title: String,
-  date: String,
-  author: String,
-  image: String,
-  excerpt: String
+const ResumeItemSchema = new mongoose.Schema({
+  year: String,
+  degree: String,
+  institution: String,
+  description: String
+});
+
+const ResumeSchema = new mongoose.Schema({
+  education: [ResumeItemSchema],
+  experience: [ResumeItemSchema]
 });
 
 const FooterSchema = new mongoose.Schema({
@@ -85,7 +89,7 @@ const PortfolioSchema = new mongoose.Schema({
   skills: [SkillSchema],
   services: [ServiceSchema],
   projects: [ProjectSchema],
-  blog: [BlogPostSchema],
+  resume: ResumeSchema,
   footer: FooterSchema,
   contact: ContactSchema
 }, { timestamps: true });

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import ImageCropper from './ImageCropper';
 import {
   DndContext,
   closestCenter,
@@ -33,7 +34,7 @@ interface HeroFormProps {
   token: string | null;
 }
 
-const SortableSlide = ({ slide, index, onRemove, onUpdateSlide, onFileUpload, token, draggedItemIndex }: any) => {
+const SortableSlide = ({ slide, index, onRemove, onUpdateSlide, handleFileChange, token, draggedItemIndex }: any) => {
   const {
     attributes,
     listeners,
@@ -63,32 +64,32 @@ const SortableSlide = ({ slide, index, onRemove, onUpdateSlide, onFileUpload, to
   return (
     <div ref={setNodeRef} style={style} className="list-item-card">
       {/* Drag Handle */}
-      <div 
-        {...attributes} 
+      <div
+        {...attributes}
         {...listeners}
-        style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          height: '36px', 
-          cursor: 'grab', 
-          color: '#6b7280' 
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '36px',
+          cursor: 'grab',
+          color: '#6b7280'
         }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={{ width: '1.25rem', height: '1.25rem' }}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
         </svg>
       </div>
-      
+
       <div style={{ flex: 1 }}>
         <div className="form-grid">
           <div className="form-group">
             <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.75rem', color: '#9ca3af' }}>Slide Subheading</label>
-            <input 
-              type="text" 
-              value={slide.subheading} 
+            <input
+              type="text"
+              value={slide.subheading}
               onChange={(e) => onUpdateSlide(index, 'subheading', e.target.value)}
-              className="form-control" 
+              className="form-control"
               style={{ height: '36px', fontSize: '0.875rem' }}
               placeholder="e.g. Creative Designer"
             />
@@ -96,28 +97,28 @@ const SortableSlide = ({ slide, index, onRemove, onUpdateSlide, onFileUpload, to
           <div className="form-group" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
             <div style={{ flex: 1 }}>
               <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.75rem', color: '#9ca3af' }}>Background Image</label>
-              <input 
-                type="file" 
+              <input
+                type="file"
                 accept="image/*"
-                onChange={(e) => onFileUpload(e, index)}
+                onChange={(e) => handleFileChange(e, index)}
                 className="form-control"
                 style={{ padding: '0.5rem', height: '36px', fontSize: '0.875rem' }}
               />
             </div>
             <div className="img-preview-box" style={{ width: '80px', height: '80px', borderRadius: '0.5rem', overflow: 'hidden', border: '1px solid #333' }}>
-               <img 
-                src={slide.bgImage || 'https://via.placeholder.com/150'} 
-                alt="Preview" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-               />
+              <img
+                src={slide.bgImage || 'https://via.placeholder.com/150'}
+                alt="Preview"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
             </div>
           </div>
         </div>
         <div className="form-group" style={{ marginTop: '1rem' }}>
           <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.75rem', color: '#9ca3af' }}>Main Title</label>
-          <textarea 
-            rows={2} 
-            value={slide.title} 
+          <textarea
+            rows={2}
+            value={slide.title}
             onChange={(e) => onUpdateSlide(index, 'title', e.target.value)}
             className="form-control"
             style={{ fontSize: '0.875rem' }}
@@ -127,8 +128,8 @@ const SortableSlide = ({ slide, index, onRemove, onUpdateSlide, onFileUpload, to
       </div>
 
       {/* Remove Button */}
-      <button 
-        type="button" 
+      <button
+        type="button"
         onClick={() => onRemove(index)}
         style={{
           backgroundColor: '#ef4444',
@@ -156,12 +157,49 @@ const SortableSlide = ({ slide, index, onRemove, onUpdateSlide, onFileUpload, to
 const HeroForm: React.FC<HeroFormProps> = ({ data, saving, onUpdate, token }) => {
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [draggedItemIndex, setDraggedItemIndex] = useState<number | null>(null);
+  const [cropperState, setCropperState] = useState<{ src: string; index: number } | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropperState({ src: reader.result as string, index });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const onCropComplete = async (croppedBlob: Blob) => {
+    if (!cropperState || !token) return;
+    const { index } = cropperState;
+
+    const file = new File([croppedBlob], `hero-slide-${index}.jpg`, { type: 'image/jpeg' });
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData
+      });
+
+      if (res.ok) {
+        const { imageUrl } = await res.json();
+        handleUpdateSlideField(index, 'bgImage', imageUrl);
+        setCropperState(null);
+      }
+    } catch (err) {
+      console.error('Upload failed', err);
+    }
+  };
 
   useEffect(() => {
     if (data && data.length > 0) {
-      setSlides(data.map((slide, idx) => ({ 
-        ...slide, 
-        id: slide._id || `slide-${idx}-${Date.now()}` 
+      setSlides(data.map((slide, idx) => ({
+        ...slide,
+        id: slide._id || `slide-${idx}-${Date.now()}`
       })));
     } else {
       setSlides([{ id: `slide-0-${Date.now()}`, subheading: '', title: '', bgImage: '' }]);
@@ -188,11 +226,11 @@ const HeroForm: React.FC<HeroFormProps> = ({ data, saving, onUpdate, token }) =>
   };
 
   const handleAddSlide = () => {
-    setSlides([...slides, { 
-      id: `slide-${slides.length}-${Date.now()}`, 
-      subheading: '', 
-      title: '', 
-      bgImage: '' 
+    setSlides([...slides, {
+      id: `slide-${slides.length}-${Date.now()}`,
+      subheading: '',
+      title: '',
+      bgImage: ''
     }]);
   };
 
@@ -205,29 +243,6 @@ const HeroForm: React.FC<HeroFormProps> = ({ data, saving, onUpdate, token }) =>
     const newSlides = [...slides];
     newSlides[index] = { ...newSlides[index], [field]: value };
     setSlides(newSlides);
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
-    const file = e.target.files?.[0];
-    if (!file || !token) return;
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-
-      if (res.ok) {
-        const { imageUrl } = await res.json();
-        handleUpdateSlideField(idx, 'bgImage', imageUrl);
-      }
-    } catch (err) {
-      console.error('Upload failed', err);
-    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -245,32 +260,32 @@ const HeroForm: React.FC<HeroFormProps> = ({ data, saving, onUpdate, token }) =>
       </h3>
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
-          <DndContext 
+          <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <SortableContext 
+            <SortableContext
               items={slides.map(s => s.id)}
               strategy={verticalListSortingStrategy}
             >
               {slides.map((slide, idx) => (
-                <SortableSlide 
+                <SortableSlide
                   key={slide.id}
                   slide={slide}
                   index={idx}
                   onRemove={handleRemoveSlide}
                   onUpdateSlide={handleUpdateSlideField}
-                  onFileUpload={handleFileUpload}
+                  handleFileChange={handleFileChange}
                   token={token}
                   draggedItemIndex={draggedItemIndex}
                 />
               ))}
             </SortableContext>
           </DndContext>
-          
-          <button 
-            type="button" 
+
+          <button
+            type="button"
             onClick={handleAddSlide}
             style={{
               backgroundColor: '#2563eb',
@@ -300,6 +315,14 @@ const HeroForm: React.FC<HeroFormProps> = ({ data, saving, onUpdate, token }) =>
           {saving ? 'Saving...' : 'Update Hero Section'}
         </button>
       </form>
+      {cropperState && (
+        <ImageCropper
+          image={cropperState.src}
+          aspect={16 / 9}
+          onCropComplete={onCropComplete}
+          onCancel={() => setCropperState(null)}
+        />
+      )}
     </div>
   );
 };

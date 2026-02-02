@@ -42,12 +42,16 @@ export interface ProjectData {
   image: string;
 }
 
-export interface BlogPostData {
-  title: string;
-  date: string;
-  author: string;
-  image: string;
-  excerpt: string;
+export interface ResumeItemData {
+  year: String;
+  degree: String;
+  institution: String;
+  description: String;
+}
+
+export interface ResumeData {
+  education: ResumeItemData[];
+  experience: ResumeItemData[];
 }
 
 export interface FooterData {
@@ -85,7 +89,7 @@ export interface PortfolioData {
   skills: SkillData[];
   services: ServiceData[];
   projects: ProjectData[];
-  blog: BlogPostData[];
+  resume: ResumeData;
   footer: FooterData;
   contact: ContactData;
 }

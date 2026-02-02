@@ -14,7 +14,7 @@ const About: React.FC<AboutProps> = ({ data }) => {
           <div className="col-md-6 col-lg-5 d-flex">
             <div className="img-about img d-flex align-items-stretch">
               <div className="overlay"></div>
-              <div className="img d-flex align-self-stretch align-items-center" style={{backgroundImage:`url(${getSafeImageUrl(data.image) || '/images/about-1.jpg'})`}}>
+              <div className="img d-flex align-self-stretch align-items-center" style={{ backgroundImage: `url(${getSafeImageUrl(data.image) || '/images/about-1.jpg'})` }}>
               </div>
             </div>
           </div>
@@ -23,7 +23,7 @@ const About: React.FC<AboutProps> = ({ data }) => {
               <div className="row justify-content-start pb-3">
                 <div className="col-md-12 heading-section ftco-animate">
                   <span className="subheading">{data.subheading || 'My Intro'}</span>
-                  <h2 className="mb-4" style={{fontSize: '34px', textTransform: 'capitalize'}}>{data.heading || 'About Me'}</h2>
+                  <h2 className="mb-4" style={{ fontSize: '34px', textTransform: 'capitalize' }}>{data.heading || 'About Me'}</h2>
                   <p>{data.description}</p>
                   <ul className="about-info mt-4 px-md-0 px-2">
                     <li className="d-flex"><span>Name:</span> <span>{data.name}</span></li>

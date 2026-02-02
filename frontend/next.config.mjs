@@ -2,6 +2,9 @@
 const nextConfig = {
   /* config options here */
   reactCompiler: true,
+  experimental: {
+    allowedDevOrigins: ['192.168.18.158', 'localhost:3000']
+  },
   async rewrites() {
     return [
       {

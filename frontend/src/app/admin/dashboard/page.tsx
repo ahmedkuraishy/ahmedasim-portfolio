@@ -13,7 +13,7 @@ import HeroForm from '@/components/Admin/HeroForm';
 import SkillsForm from '@/components/Admin/SkillsForm';
 import ServicesForm from '@/components/Admin/ServicesForm';
 import ProjectsForm from '@/components/Admin/ProjectsForm';
-import BlogForm from '@/components/Admin/BlogForm';
+import ResumeForm from '@/components/Admin/ResumeForm';
 import ContactForm from '@/components/Admin/ContactForm';
 import FooterForm from '@/components/Admin/FooterForm';
 import CountersForm from '@/components/Admin/CountersForm';
@@ -27,7 +27,7 @@ interface User {
   role: string;
 }
 
-type TabType = 'about' | 'navbar' | 'hero' | 'counters' | 'skills' | 'services' | 'projects' | 'blog' | 'contact' | 'footer' | 'users';
+type TabType = 'about' | 'navbar' | 'hero' | 'counters' | 'skills' | 'services' | 'projects' | 'resume' | 'contact' | 'footer' | 'users';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('navbar');
@@ -37,15 +37,15 @@ export default function AdminDashboard() {
   const [portfolioData, setPortfolioData] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  
+
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
+
   // User Management State
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
-  
+
   const router = useRouter();
 
   // Check if mobile and set sidebar state
@@ -55,10 +55,10 @@ export default function AdminDashboard() {
       setIsMobile(mobile);
       setIsSidebarOpen(!mobile); // Sidebar closed by default on mobile
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
     if (selectedFile) {
       const uploadFormData = new FormData();
       uploadFormData.append('image', selectedFile);
-      
+
       try {
         const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
           method: 'POST',
@@ -252,17 +252,28 @@ export default function AdminDashboard() {
     handleUpdateSection('projects', updatedProjects);
   };
 
-  const handleUpdateBlog = async (e: React.FormEvent) => {
+  const handleUpdateResume = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const updatedBlog = portfolioData.blog.map((_: any, idx: number) => ({
-      title: formData.get(`blog_title_${idx}`),
-      date: formData.get(`blog_date_${idx}`),
-      author: formData.get(`blog_author_${idx}`),
-      image: formData.get(`blog_img_${idx}`),
-      excerpt: formData.get(`blog_excerpt_${idx}`),
+
+    const updatedEducation = (portfolioData?.resume?.education || []).map((_: any, idx: number) => ({
+      year: formData.get(`edu_year_${idx}`),
+      degree: formData.get(`edu_degree_${idx}`),
+      institution: formData.get(`edu_inst_${idx}`),
+      description: formData.get(`edu_desc_${idx}`),
     }));
-    handleUpdateSection('blog', updatedBlog);
+
+    const updatedExperience = (portfolioData?.resume?.experience || []).map((_: any, idx: number) => ({
+      year: formData.get(`exp_year_${idx}`),
+      degree: formData.get(`exp_degree_${idx}`),
+      institution: formData.get(`exp_inst_${idx}`),
+      description: formData.get(`exp_desc_${idx}`),
+    }));
+
+    handleUpdateSection('resume', {
+      education: updatedEducation,
+      experience: updatedExperience
+    });
   };
 
   const handleUpdateFooter = async (e: React.FormEvent) => {
@@ -299,7 +310,7 @@ export default function AdminDashboard() {
       skills: 'Skills',
       services: 'Services',
       projects: 'Projects',
-      blog: 'Blog Posts',
+      resume: 'Resume',
       contact: 'Contact Info',
       footer: 'Footer',
       users: 'User Management'
@@ -328,7 +339,7 @@ export default function AdminDashboard() {
       });
       return;
     }
-    
+
     const result = await Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -373,14 +384,14 @@ export default function AdminDashboard() {
 
   const handleSaveUser = async (userData: User) => {
     if (!token) return;
-    
+
     try {
-      const url = userData._id 
-        ? `${process.env.NEXT_PUBLIC_API_URL}/users/${userData._id}` 
+      const url = userData._id
+        ? `${process.env.NEXT_PUBLIC_API_URL}/users/${userData._id}`
         : `${process.env.NEXT_PUBLIC_API_URL}/users`;
-      
+
       const method = userData._id ? 'PUT' : 'POST';
-      
+
       const res = await fetch(url, {
         method,
         headers: {
@@ -393,7 +404,7 @@ export default function AdminDashboard() {
       if (res.ok) {
         // Refresh users list
         fetchData(token);
-        
+
         Swal.fire({
           icon: 'success',
           title: 'Success!',
@@ -432,7 +443,7 @@ export default function AdminDashboard() {
   return (
     <div className="dashboard-container">
       {/* Hamburger Menu Button */}
-      <button 
+      <button
         className={`hamburger-btn ${isSidebarOpen ? 'active' : ''}`}
         onClick={toggleSidebar}
         aria-label="Toggle sidebar"
@@ -454,15 +465,15 @@ export default function AdminDashboard() {
 
       {/* Mobile Overlay */}
       {isMobile && (
-        <div 
+        <div
           className={`sidebar-overlay ${isSidebarOpen ? 'active' : ''}`}
           onClick={closeSidebar}
         />
       )}
 
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
         handleLogout={handleLogout}
         isOpen={isSidebarOpen}
         isMobile={isMobile}
@@ -470,8 +481,8 @@ export default function AdminDashboard() {
       />
 
       <main className={`main-content ${isSidebarOpen ? '' : 'expanded'}`}>
-        <Header 
-          title={getTabLabel(activeTab)} 
+        <Header
+          title={getTabLabel(activeTab)}
           subtitle={activeTab === 'users' ? 'Manage administrative access' : `Update your ${getTabLabel(activeTab)} content`}
           onRefresh={() => fetchData(token || '')}
           showAddUser={activeTab === 'users'}
@@ -483,8 +494,8 @@ export default function AdminDashboard() {
 
         <div className="content-area">
           {activeTab === 'users' ? (
-            <UsersTable 
-              users={users} 
+            <UsersTable
+              users={users}
               onDelete={handleDeleteUser}
               onEdit={(user) => {
                 setEditingUser(user);
@@ -497,23 +508,23 @@ export default function AdminDashboard() {
               {activeTab === 'hero' && <HeroForm data={portfolioData?.hero} saving={saving} onUpdate={handleUpdateHero} token={token} />}
               {activeTab === 'counters' && <CountersForm data={portfolioData?.counters} saving={saving} onUpdate={handleUpdateCounters} />}
               {activeTab === 'about' && (
-                <AboutForm 
-                  data={portfolioData?.about} 
-                  saving={saving} 
-                  onUpdate={handleUpdateAbout} 
-                  selectedFile={selectedFile} 
-                  setSelectedFile={setSelectedFile} 
+                <AboutForm
+                  data={portfolioData?.about}
+                  saving={saving}
+                  onUpdate={handleUpdateAbout}
+                  selectedFile={selectedFile}
+                  setSelectedFile={setSelectedFile}
                 />
               )}
               {activeTab === 'skills' && <SkillsForm data={portfolioData?.skills} saving={saving} onUpdate={handleUpdateSkills} />}
               {activeTab === 'services' && <ServicesForm data={portfolioData?.services} saving={saving} onUpdate={handleUpdateServices} />}
               {activeTab === 'projects' && <ProjectsForm data={portfolioData?.projects} saving={saving} onUpdate={handleUpdateProjects} token={token} />}
-              {activeTab === 'blog' && <BlogForm data={portfolioData?.blog} saving={saving} onUpdate={handleUpdateBlog} token={token} />}
+              {activeTab === 'resume' && <ResumeForm data={portfolioData?.resume} saving={saving} onUpdate={handleUpdateResume} />}
               {activeTab === 'contact' && <ContactForm data={portfolioData?.contact} saving={saving} onUpdate={handleUpdateContact} />}
               {activeTab === 'footer' && <FooterForm data={portfolioData?.footer} saving={saving} onUpdate={handleUpdateFooter} />}
 
               {/* General placeholder for truly unbuilt sections */}
-              {!['about', 'hero', 'navbar', 'skills', 'services', 'contact', 'projects', 'blog', 'footer', 'counters', 'users'].includes(activeTab) && (
+              {!['about', 'hero', 'navbar', 'skills', 'services', 'contact', 'projects', 'resume', 'footer', 'counters', 'users'].includes(activeTab) && (
                 <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
                   <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🏗️</div>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>{getTabLabel(activeTab)} Editor</h3>
@@ -526,7 +537,7 @@ export default function AdminDashboard() {
 
       </main>
 
-      <UserForm 
+      <UserForm
         isOpen={isUserModalOpen}
         onClose={() => setIsUserModalOpen(false)}
         user={editingUser}
